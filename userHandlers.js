@@ -28,3 +28,18 @@ export const getUserById = (req, res) => {
       res.status(500).send("got pb");
     })
 }
+
+export const postUsers = (req, res) => {
+  const { id, firstname, lastname, email, city, language } = req.body;
+
+  database
+  .query("INSERT INTO users(id, firstname, lastname, email, city, language) VALUES(?,?,?,?,?,?)", [id, firstname, lastname, email, city, language])
+  .then(([result]) => {
+    res.location(`/api/users/${result.insertId}`).sendStatus(201);
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(500).send("Nope for new users");
+  })
+}
+
