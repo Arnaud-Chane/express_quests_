@@ -43,3 +43,23 @@ export const postUsers = (req, res) => {
   })
 }
 
+export const updateUser = (req, res) => {
+  const id = parseInt(req.params.id);
+  const { firstname, lastname, email, city, language } = req.body;
+
+  database
+  .query(
+    "update users set firstname = ?, lastname = ?, email = ?, city = ?, language = ? where id = ?",
+    [firstname, lastname, email, city, language, id])
+  .then((result) => {
+    if (result.affectedRows === 0) {
+      res.status(404).send("Not found");
+    } else {
+      res.sendStatus(204);
+    }
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(500).send("Pb editing Users");
+  })
+}
