@@ -1,4 +1,4 @@
-import {database} from './database.js';
+import { database } from "./database.js";
 
 // const movies = [
 //   {
@@ -36,7 +36,7 @@ export const getMovies = (req, res) => {
     .catch((err) => {
       console.log(err);
       res.status(400).send("There's an error");
-    })
+    });
 };
 
 export const getMovieById = (req, res) => {
@@ -54,6 +54,23 @@ export const getMovieById = (req, res) => {
     .catch((err) => {
       console.error(err);
       res.status(500).send("Error retrieving data from database");
+    });
+};
+
+export const postMovies = (req, res) => {
+  const { title, director, year, color, duration } = req.body;
+
+  database
+    .query(
+      "INSERT INTO movies(title, director, year, color, duration) VALUES (?, ?, ?, ?, ?)",
+      [title, director, year, color, duration]
+    )
+    .then(([result]) => {
+      res.location(`/api/movies/${result.insertId}`).sendStatus(201);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send("Can't save the movies mate");
     });
 };
 

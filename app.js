@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import {getMovies, getMovieById} from './movieHandlers.js';
+import {getMovies, getMovieById, postMovies} from './movieHandlers.js';
 import { getUsers, getUserById } from './userHandlers.js';
 
 
@@ -12,7 +12,7 @@ const welcome = (req, res) => {
   res.send("Welcome to my favourite movie list");
 };
 
-
+app.use(express.json());
 
 app.get("/", welcome);
 app.get("/api/movies", getMovies);
@@ -20,6 +20,7 @@ app.get("/api/movies/:id", getMovieById);
 app.get("/api/users", getUsers);
 app.get("/api/users/:id", getUserById);
 
+app.post("/api/movies", postMovies);
 
 
 app.listen(port, (err) => {
