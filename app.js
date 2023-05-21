@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import {getMovies, getMovieById, postMovies} from './movieHandlers.js';
+import {getMovies, getMovieById, postMovies, updateMovies} from './movieHandlers.js';
 import { getUsers, getUserById, postUsers } from './userHandlers.js';
 
 
@@ -22,6 +22,8 @@ app.get("/api/users/:id", getUserById);
 
 app.post("/api/movies", postMovies);
 app.post("/api/users", postUsers);
+
+app.put("/api/movies/:id", updateMovies);
 
 
 app.listen(port, (err) => {
