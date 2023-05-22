@@ -28,8 +28,25 @@ import { database } from "./database.js";
 // ];
 
 export const getMovies = (req, res) => {
+  let sql = "SELECT * FROM movies";
+  const sqlValues = [];
+
+  if (req.query.color != null) {
+    sql += " where color = ?";
+    sqlValues.push(req.query.color);
+
+    if (req.query.max_duration != null) {
+      sql += " and duration <= ?";
+      sqlValues.push(req.query.max_duration);
+    }
+
+  } else if (req.query.max_duration != null) {
+    sql += " where duration <= ?";
+    sqlValues.push(req.query.max_duration);
+  }
+
   database
-    .query("SELECT * FROM movies")
+    .query(sql, sqlValues)
     .then(([movies]) => {
       res.status(200).json(movies);
     })
@@ -116,3 +133,4 @@ export const deleteMovie = (req, res) => {
     res.status(500).send("Pb deleting movies");
   })
 }
+
