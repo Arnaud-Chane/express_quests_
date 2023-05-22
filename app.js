@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
-import {getMovies, getMovieById, postMovies, updateMovies} from './movieHandlers.js';
-import { getUsers, getUserById, postUsers, updateUser } from './userHandlers.js';
+import {getMovies, getMovieById, postMovies, updateMovies, deleteMovie} from './movieHandlers.js';
+import { getUsers, getUserById, postUsers, updateUser, deleteUser } from './userHandlers.js';
 
 
 dotenv.config();
@@ -25,6 +25,9 @@ app.post("/api/users", postUsers);
 
 app.put("/api/movies/:id", updateMovies);
 app.put("/api/users/:id", updateUser);
+
+app.delete("/api/movies/:id", deleteMovie);
+app.delete("/api/users/:id", deleteUser);
 
 app.listen(port, (err) => {
   if (err) {

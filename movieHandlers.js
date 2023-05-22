@@ -96,3 +96,23 @@ export const updateMovies = (req, res) => {
     res.status(500).send("Pb editing movies.");
   })
 };
+
+
+export const deleteMovie = (req, res) => {
+  const id = parseInt(req.params.id);
+
+  database
+  .query(
+    "delete from movies where id = ?", [id])
+  .then(([result]) => {
+    if(result.affectedRows === 0) {
+      res.status(404).send("Not found");
+    } else {
+      res.sendStatut(204);
+    }
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(500).send("Pb deleting movies");
+  })
+}
