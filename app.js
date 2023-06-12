@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import {getMovies, getMovieById, postMovies, updateMovies, deleteMovie} from './movieHandlers.js';
 import { getUsers, getUserById, postUsers, updateUser, deleteUser } from './userHandlers.js';
-
+import { hashPassword } from './auth.js';
 
 dotenv.config();
 const app = express();
@@ -21,10 +21,9 @@ app.get("/api/users", getUsers);
 app.get("/api/users/:id", getUserById);
 
 app.post("/api/movies", postMovies);
-app.post("/api/users", postUsers);
-
+app.post("/api/users", hashPassword, postUsers);
 app.put("/api/movies/:id", updateMovies);
-app.put("/api/users/:id", updateUser);
+app.put("/api/users/:id", hashPassword, updateUser);
 
 app.delete("/api/movies/:id", deleteMovie);
 app.delete("/api/users/:id", deleteUser);
